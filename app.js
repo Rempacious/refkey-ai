@@ -529,13 +529,13 @@ class App {
         <table class="directory-table">
           <thead>
             <tr>
-              <th style="width: 140px;">Status</th>
-              <th>Provider</th>
-              <th>Category</th>
-              <th>Bonus / Reward</th>
-              <th>Notes</th>
-              <th style="text-align: right;">Links</th>
-              ${this.admin.isAdminMode ? '<th style="text-align: right;">Admin</th>' : ''}
+              <th style="width: 120px; min-width: 120px;">Status</th>
+              <th style="width: 220px; min-width: 190px;">Provider</th>
+              <th style="width: 130px; min-width: 110px;">Category</th>
+              <th style="width: 260px; min-width: 200px;">Bonus / Reward</th>
+              <th style="min-width: 280px;">Notes</th>
+              <th style="width: 160px; min-width: 150px; text-align: right;">Links</th>
+              ${this.admin.isAdminMode ? '<th style="width: 180px; min-width: 180px; text-align: right;">Admin</th>' : ''}
             </tr>
           </thead>
           <tbody>
@@ -555,7 +555,7 @@ class App {
 
     return `
       <tr data-id="${this.escapeHtml(item.id)}" class="${item.recommended ? 'table-row-recommended' : ''}">
-        <td>
+        <td style="width: 120px;">
           <span class="status-pill ${statusDef.badgeCls}">
             <span class="status-dot ${statusDef.dotCls}"></span>
             ${this.escapeHtml(statusDef.label)}
@@ -575,7 +575,7 @@ class App {
         <td class="table-bonus-cell">
           ${item.bonus ? `<span class="bonus-credit-tag" style="margin-right:0.35rem;">🎁 Credits</span><strong>${this.escapeHtml(item.bonus)}</strong>` : '—'}
         </td>
-        <td style="color:var(--text-muted); font-size:0.775rem; max-width:280px; white-space:normal; word-break:break-word; line-height:1.4;" title="${this.escapeHtml(item.notes || '')}">
+        <td class="table-notes-cell" title="${this.escapeHtml(item.notes || '')}">
           ${this.escapeHtml(item.notes || '—')}
         </td>
         <td style="text-align: right;">
