@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Curated live directory of free AI API referral links, sign-up bonus credits, routers, and developer deals.">
-  <meta name="keywords" content="AI API, Free API keys, AI referral links, Claude, GPT-4, OpenRouter, LLM credits, free AI tools">
+  <meta name="description"
+    content="Curated live directory of free AI APIs, sign-up bonus credits, routers, and developer deals.">
+  <meta name="keywords"
+    content="AI API, Free API keys, AI referral links, Claude, GPT-4, OpenRouter, LLM credits, free AI tools">
   <meta name="theme-color" content="#0b0f17">
 
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="RefKey // Free AI APIs & Referral Directory">
-  <meta property="og:description" content="Live curated directory of AI API referral links and free credits. Updated in real-time.">
+  <meta property="og:description"
+    content="Live curated directory of AI API referral links and free credits. Updated in real-time.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RefKey // Free AI APIs & Referral Directory">
-  <meta name="twitter:description" content="Live curated directory of AI API referral links and free credits. Updated in real-time.">
+  <meta name="twitter:description"
+    content="Live curated directory of AI API referral links and free credits. Updated in real-time.">
 
-  <title>RefKey // Free AI APIs & Referral Directory</title>
+  <title>RefKey // Free AI APIs</title>
 
   <!-- Typography: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
   <link rel="stylesheet" href="./style.css">
 
@@ -36,6 +43,7 @@
   </script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
+
 <body>
   <div class="container">
 
@@ -43,7 +51,10 @@
     <div id="admin-bar" class="admin-bar" style="display: none;">
       <div class="admin-bar-info">
         <span class="admin-mode-pill">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
           Admin Mode
         </span>
         <span id="admin-gist-display" class="admin-gist-status">Loading storage…</span>
@@ -51,24 +62,35 @@
 
       <div class="admin-bar-actions">
         <button type="button" class="btn btn-primary btn-sm" id="admin-btn-add">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
           Add Referral Link
         </button>
         <button type="button" class="btn btn-secondary btn-sm" id="admin-btn-settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
           Gist Settings
         </button>
-        <button type="button" class="btn btn-secondary btn-sm" id="admin-btn-export" title="Export links backup as JSON">
+        <button type="button" class="btn btn-secondary btn-sm" id="admin-btn-export"
+          title="Export links backup as JSON">
           Export JSON
         </button>
-        <button type="button" class="btn btn-secondary btn-sm" id="admin-btn-import" title="Import links from JSON file">
+        <button type="button" class="btn btn-secondary btn-sm" id="admin-btn-import"
+          title="Import links from JSON file">
           Import JSON
         </button>
         <input type="file" id="admin-file-import" accept=".json" style="display: none;">
         <button type="button" class="btn btn-secondary btn-sm" id="admin-btn-exit" title="Exit Admin Mode">
           Exit Admin
         </button>
-        <button type="button" class="btn btn-danger btn-sm" id="admin-btn-logout" title="Log out and clear admin credentials from this browser">
+        <button type="button" class="btn btn-danger btn-sm" id="admin-btn-logout"
+          title="Log out and clear admin credentials from this browser">
           Logout
         </button>
       </div>
@@ -79,14 +101,17 @@
       <div class="header-top">
         <div>
           <div class="brand-kicker">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
             Curated Developer Directory
           </div>
           <h1 class="brand-title">
             <span class="prefix">$</span> refkey // ai-keys
           </h1>
           <p class="brand-desc">
-            Live directory of free AI API referral links, sign-up bonus credits, and LLM routers. Real-time updates. Contact me on FB if the site is down or not working
+            Live directory of free AI API referral links, sign-up bonus credits, and LLM routers. Real-time updates.
+            Contact me on FB if the site is down or not working
           </p>
 
           <div class="stats-badges">
@@ -115,12 +140,18 @@
 
           <!-- Manual Refresh -->
           <button class="btn-icon" id="btn-refresh-data" aria-label="Refresh data" title="Refresh data">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+            </svg>
           </button>
 
           <!-- Admin Mode Toggle (Lock) - Hidden by default for visitors, visible only when authenticated -->
-          <button class="btn-icon" id="btn-admin-toggle" aria-label="Admin mode toggle" title="Admin Mode" style="display: none;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <button class="btn-icon" id="btn-admin-toggle" aria-label="Admin mode toggle" title="Admin Mode"
+            style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
           </button>
 
           <!-- Quick Dark/Light Toggle -->
@@ -140,7 +171,8 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="search" id="search-input" class="search-input" placeholder="Search provider name, bonus, model, or notes…" autocomplete="off" spellcheck="false">
+            <input type="search" id="search-input" class="search-input"
+              placeholder="Search provider name, bonus, model, or notes…" autocomplete="off" spellcheck="false">
             <button type="button" class="clear-search-btn" id="clear-search-btn" title="Clear search">✕</button>
             <span class="search-shortcut-badge">/</span>
           </div>
@@ -161,15 +193,28 @@
           <!-- Layout View Switcher -->
           <div class="view-mode-toggle" id="view-mode-toggle">
             <button type="button" class="btn-view is-active" data-view="grid" title="Bento Grid View">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
               <span>Grid</span>
             </button>
             <button type="button" class="btn-view" data-view="table" title="Dense Table View">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
               <span>Table</span>
             </button>
             <button type="button" class="btn-view" data-view="compact" title="Compact List View">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="4" width="18" height="4" rx="1"></rect><rect x="3" y="10" width="18" height="4" rx="1"></rect><rect x="3" y="16" width="18" height="4" rx="1"></rect></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                <rect x="3" y="4" width="18" height="4" rx="1"></rect>
+                <rect x="3" y="10" width="18" height="4" rx="1"></rect>
+                <rect x="3" y="16" width="18" height="4" rx="1"></rect>
+              </svg>
               <span>Compact</span>
             </button>
           </div>
@@ -210,7 +255,8 @@
             </div>
             <div class="form-group">
               <label class="form-label" for="link-category">Category <span class="required">*</span></label>
-              <input type="text" id="link-category" class="form-input" list="category-datalist" placeholder="e.g. Top Sites" required>
+              <input type="text" id="link-category" class="form-input" list="category-datalist"
+                placeholder="e.g. Top Sites" required>
               <datalist id="category-datalist">
                 <option value="Top Sites">
                 <option value="AI Routers">
@@ -240,24 +286,30 @@
           </div>
 
           <div style="display:flex; gap:1.25rem; align-items:center; padding:0.25rem 0.1rem; flex-wrap:wrap;">
-            <label style="display:flex; align-items:center; gap:0.45rem; font-family:var(--font-mono); font-size:0.8rem; cursor:pointer; color:var(--text-main);">
-              <input type="checkbox" id="link-recommended" style="accent-color:#ffbe3b; width:15px; height:15px; cursor:pointer;">
+            <label
+              style="display:flex; align-items:center; gap:0.45rem; font-family:var(--font-mono); font-size:0.8rem; cursor:pointer; color:var(--text-main);">
+              <input type="checkbox" id="link-recommended"
+                style="accent-color:#ffbe3b; width:15px; height:15px; cursor:pointer;">
               <span style="color:#ffbe3b; font-weight:600;">★ Mark as Recommended</span>
             </label>
-            <label style="display:flex; align-items:center; gap:0.45rem; font-family:var(--font-mono); font-size:0.8rem; cursor:pointer; color:var(--text-main);">
-              <input type="checkbox" id="link-verified" style="accent-color:#10b981; width:15px; height:15px; cursor:pointer;" checked>
+            <label
+              style="display:flex; align-items:center; gap:0.45rem; font-family:var(--font-mono); font-size:0.8rem; cursor:pointer; color:var(--text-main);">
+              <input type="checkbox" id="link-verified"
+                style="accent-color:#10b981; width:15px; height:15px; cursor:pointer;" checked>
               <span style="color:#34d399; font-weight:600;">✓ Verified Working</span>
             </label>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="link-bonus">Bonus Offer Summary</label>
-            <input type="text" id="link-bonus" class="form-input" placeholder="e.g. $150 free credits + daily check-in bonus">
+            <input type="text" id="link-bonus" class="form-input"
+              placeholder="e.g. $150 free credits + daily check-in bonus">
           </div>
 
           <div class="form-group">
             <label class="form-label" for="link-url">Primary Referral URL <span class="required">*</span></label>
-            <input type="url" id="link-url" class="form-input mono" placeholder="https://provider.com/register?ref=YOUR_CODE" required>
+            <input type="url" id="link-url" class="form-input mono"
+              placeholder="https://provider.com/register?ref=YOUR_CODE" required>
           </div>
 
           <div class="form-group">
@@ -270,7 +322,8 @@
 
           <div class="form-group">
             <label class="form-label" for="link-notes">Notes / Instructions</label>
-            <textarea id="link-notes" class="form-textarea" rows="3" placeholder="e.g. Requires GitHub account verification. Supports Claude 3.5 Sonnet and GPT-4o."></textarea>
+            <textarea id="link-notes" class="form-textarea" rows="3"
+              placeholder="e.g. Requires GitHub account verification. Supports Claude 3.5 Sonnet and GPT-4o."></textarea>
           </div>
         </div>
 
@@ -288,15 +341,18 @@
       <div class="modal-header">
         <div style="display:flex; align-items:center; gap:0.75rem;">
           <h3 class="modal-title">Gist Database & Admin Settings</h3>
-          <span id="connection-status-badge" class="badge-status" style="font-size:0.72rem; padding:0.15rem 0.5rem; display:none;"></span>
+          <span id="connection-status-badge" class="badge-status"
+            style="font-size:0.72rem; padding:0.15rem 0.5rem; display:none;"></span>
         </div>
         <button type="button" class="btn-icon" data-close-modal title="Close">✕</button>
       </div>
       <form id="form-admin-settings">
         <div class="modal-body">
           <p class="form-help" style="margin-bottom:0.5rem; line-height:1.5;">
-            Your site connects to a <strong>GitHub Gist</strong> to store referral links in real time with 0 maintenance and 0 hosting costs.
-            Your Personal Access Token is saved <strong>strictly in your browser's local storage</strong> on this device and never exposed to visitors.
+            Your site connects to a <strong>GitHub Gist</strong> to store referral links in real time with 0 maintenance
+            and 0 hosting costs.
+            Your Personal Access Token is saved <strong>strictly in your browser's local storage</strong> on this device
+            and never exposed to visitors.
           </p>
 
           <div class="form-group">
@@ -305,21 +361,26 @@
               <input type="password" id="settings-token" class="form-input mono" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
               <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-token-vis">Show</button>
             </div>
-            <span class="form-help">Requires only <code>gist</code> scope. <a href="https://github.com/settings/tokens/new?scopes=gist&description=RefKey+Admin" target="_blank" rel="noopener noreferrer" style="color:var(--primary);">Generate GitHub Token &rarr;</a></span>
+            <span class="form-help">Requires only <code>gist</code> scope. <a
+                href="https://github.com/settings/tokens/new?scopes=gist&description=RefKey+Admin" target="_blank"
+                rel="noopener noreferrer" style="color:var(--primary);">Generate GitHub Token &rarr;</a></span>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="settings-gist-id">GitHub Gist ID</label>
             <input type="text" id="settings-gist-id" class="form-input mono" placeholder="e.g. 7f8a9b2c3d4e5f6a...">
-            <span class="form-help">The ID from your Gist URL: <code>https://gist.github.com/username/[GIST_ID]</code></span>
+            <span class="form-help">The ID from your Gist URL:
+              <code>https://gist.github.com/username/[GIST_ID]</code></span>
           </div>
 
           <div style="display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.4rem;">
             <button type="button" class="btn btn-secondary btn-sm" id="btn-test-connection">Test Connection</button>
-            <button type="button" class="btn btn-primary btn-sm" id="btn-auto-create-gist">✨ Create New Gist for Me</button>
+            <button type="button" class="btn btn-primary btn-sm" id="btn-auto-create-gist">✨ Create New Gist for
+              Me</button>
           </div>
 
-          <div id="connection-test-result" style="font-family:var(--font-mono); font-size:0.775rem; margin-top:0.4rem;"></div>
+          <div id="connection-test-result" style="font-family:var(--font-mono); font-size:0.775rem; margin-top:0.4rem;">
+          </div>
         </div>
 
         <div class="modal-footer">
@@ -357,8 +418,12 @@
     <div class="modal-card" style="max-width: 440px;">
       <div class="modal-header">
         <div style="display:flex; align-items:center; gap:0.6rem;">
-          <div style="width:28px; height:28px; border-radius:6px; background:rgba(13,242,201,0.12); border:1px solid rgba(13,242,201,0.3); display:flex; align-items:center; justify-content:center; color:var(--primary);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <div
+            style="width:28px; height:28px; border-radius:6px; background:rgba(13,242,201,0.12); border:1px solid rgba(13,242,201,0.3); display:flex; align-items:center; justify-content:center; color:var(--primary);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
           </div>
           <h3 class="modal-title">Admin Authentication</h3>
         </div>
@@ -367,18 +432,21 @@
       <form id="form-admin-login">
         <div class="modal-body">
           <p style="font-size:0.835rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
-            Enter your GitHub Personal Access Token (PAT) with <code style="color:var(--primary);">gist</code> scope to unlock real-time directory management.
+            Enter your GitHub Personal Access Token (PAT) with <code style="color:var(--primary);">gist</code> scope to
+            unlock real-time directory management.
           </p>
           <div class="form-group">
             <label class="form-label" for="login-token">GitHub Token (PAT)</label>
             <div style="display:flex; gap:0.4rem;">
-              <input type="password" id="login-token" class="form-input mono" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="current-password" required>
+              <input type="password" id="login-token" class="form-input mono" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                autocomplete="current-password" required>
               <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-login-token-vis">Show</button>
             </div>
             <span class="form-help">Token is stored locally in your browser only and verified via GitHub API.</span>
           </div>
 
-          <div id="login-status-msg" style="font-family:var(--font-mono); font-size:0.775rem; min-height:1.2rem; margin-top:0.25rem;"></div>
+          <div id="login-status-msg"
+            style="font-family:var(--font-mono); font-size:0.775rem; min-height:1.2rem; margin-top:0.25rem;"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
@@ -394,4 +462,5 @@
   <!-- Scripts -->
   <script type="module" src="./app.js"></script>
 </body>
+
 </html>
