@@ -273,14 +273,8 @@ class App {
       if (textToScan.includes('deepseek') || textToScan.includes('r1') || textToScan.includes('v3')) {
         models.push('DeepSeek');
       }
-      if (textToScan.includes('llama')) {
-        models.push('Llama 3');
-      }
-      if (textToScan.includes('gemini')) {
-        models.push('Gemini');
-      }
-      if (textToScan.includes('mistral') || textToScan.includes('codestral') || textToScan.includes('mixtral')) {
-        models.push('Mistral');
+      if (textToScan.includes('glm') || textToScan.includes('zhipu') || textToScan.includes('chatglm')) {
+        models.push('GLM-4');
       }
       if (models.length === 0 && (item.category === 'AI Routers' || item.category === 'Top Sites')) {
         models = ['Claude 3.5', 'GPT-4o'];

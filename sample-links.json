@@ -23,8 +23,8 @@
     "category": "Top Sites",
     "badge": "Free Models",
     "bonus": "Free models available daily with no minimum deposit",
-    "models": ["Claude 3.5", "GPT-4o", "DeepSeek-R1", "Llama 3.3", "Gemini 2.0", "Mistral"],
-    "notes": "Popular router for LLMs. Access free Llama 3, Gemini Flash, and Mistral models.",
+    "models": ["Claude 3.5", "GPT-4o", "DeepSeek-R1", "GLM-4"],
+    "notes": "Popular router for LLMs. Access top Claude, GPT-4o, DeepSeek, and GLM models with unified credits.",
     "url": "https://openrouter.ai/settings/",
     "urls": [
       { "label": "Settings", "url": "https://openrouter.ai/settings/" }
@@ -59,7 +59,7 @@
     "category": "AI Routers",
     "badge": "$10 Free",
     "bonus": "Temporary maintenance window",
-    "models": ["GPT-3.5", "Llama 2"],
+    "models": ["GPT-4o", "Claude 3.5"],
     "notes": "Provider is upgrading API gateway. Expected back online shortly.",
     "url": "https://example.com/ref",
     "urls": [
