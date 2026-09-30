@@ -2,7 +2,7 @@
  * RefKey // AI Directory - Main Application
  */
 
-import { CONFIG } from './config.js';
+import { CONFIG, MODEL_LOGOS, getModelInfo } from './config.js';
 import { GistService } from './gist-service.js';
 import { AdminController } from './admin.js';
 
@@ -13,6 +13,7 @@ class App {
     this.currentCategory = 'all';
     this.searchQuery = '';
     this.statusFilter = 'all';
+    this.modelFilter = 'all';
     this.sortBy = 'default';
     this.lastUpdated = null;
     this.isLoading = true;
@@ -254,12 +255,45 @@ class App {
 
     const primaryUrl = formattedUrls[0]?.url || item.url || '#';
 
+    // Normalize or auto-detect supported AI models
+    let models = [];
+    if (Array.isArray(item.models) && item.models.length > 0) {
+      models = item.models.map(m => String(m).trim()).filter(Boolean);
+    } else if (typeof item.models === 'string' && item.models.trim()) {
+      models = item.models.split(',').map(m => m.trim()).filter(Boolean);
+    } else {
+      // Smart Auto-detection from notes, name, or badge for existing links
+      const textToScan = `${item.name || ''} ${item.notes || ''} ${item.badge || ''} ${item.bonus || ''}`.toLowerCase();
+      if (textToScan.includes('claude') || textToScan.includes('sonnet') || textToScan.includes('opus')) {
+        models.push('Claude 3.5');
+      }
+      if (textToScan.includes('gpt') || textToScan.includes('openai') || textToScan.includes('o1') || textToScan.includes('o3') || textToScan.includes('chatgpt')) {
+        models.push('GPT-4o');
+      }
+      if (textToScan.includes('deepseek') || textToScan.includes('r1') || textToScan.includes('v3')) {
+        models.push('DeepSeek');
+      }
+      if (textToScan.includes('llama')) {
+        models.push('Llama 3');
+      }
+      if (textToScan.includes('gemini')) {
+        models.push('Gemini');
+      }
+      if (textToScan.includes('mistral') || textToScan.includes('codestral') || textToScan.includes('mixtral')) {
+        models.push('Mistral');
+      }
+      if (models.length === 0 && (item.category === 'AI Routers' || item.category === 'Top Sites')) {
+        models = ['Claude 3.5', 'GPT-4o'];
+      }
+    }
+
     return {
       id: item.id || `ref_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       name: item.name || 'Untitled Provider',
       category: (item.category && item.category.trim()) ? item.category.trim() : 'Top Sites',
       badge: item.badge || '',
       bonus: item.bonus || '',
+      models: Array.from(new Set(models)),
       notes: item.notes || '',
       url: primaryUrl,
       urls: formattedUrls,
@@ -344,13 +378,26 @@ class App {
         return false;
       }
 
-      // 3. Search query
+      // 3. AI Model filter
+      if (this.modelFilter && this.modelFilter !== 'all') {
+        const itemModels = Array.isArray(item.models) ? item.models : [];
+        const hasMatchingModel = itemModels.some(m => {
+          const info = getModelInfo(m);
+          return info.brand === this.modelFilter || m.toLowerCase().includes(this.modelFilter.toLowerCase());
+        });
+        if (!hasMatchingModel) {
+          return false;
+        }
+      }
+
+      // 4. Search query (matches name, category, bonus, notes, and supported models)
       if (this.searchQuery) {
         const searchable = [
           item.name,
           item.category,
           item.badge,
           item.bonus,
+          ...(item.models || []),
           item.notes,
           item.url,
           ...item.urls.map(u => u.url + ' ' + u.label)
@@ -370,7 +417,62 @@ class App {
      ========================================================================== */
   render() {
     this.renderCategoryPills();
+    this.renderModelsFilterBar();
     this.renderLinksList();
+  }
+
+  renderModelsFilterBar() {
+    const container = document.getElementById('models-filter-bar');
+    if (!container) return;
+
+    const html = `
+      <span class="models-filter-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path>
+        </svg>
+        Models:
+      </span>
+      ${CONFIG.POPULAR_MODELS.map(m => {
+        const isActive = this.modelFilter === m.key;
+        const logoSvg = m.key === 'all'
+          ? `<svg class="model-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 12 9 17 20 6"></polyline></svg>`
+          : (MODEL_LOGOS[m.brand] || MODEL_LOGOS.default);
+        return `
+          <button type="button" class="btn-model-filter ${isActive ? 'is-active' : ''}" data-model="${this.escapeHtml(m.key)}" title="Filter by ${this.escapeHtml(m.label)}">
+            ${logoSvg}
+            <span>${this.escapeHtml(m.label)}</span>
+          </button>
+        `;
+      }).join('')}
+    `;
+
+    container.innerHTML = html;
+
+    // Attach click events on model buttons
+    container.querySelectorAll('.btn-model-filter').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const model = btn.getAttribute('data-model');
+        this.modelFilter = (this.modelFilter === model && model !== 'all') ? 'all' : model;
+        this.render();
+      });
+    });
+  }
+
+  renderModelTags(models, isCompact = false) {
+    if (!models || !models.length) return '';
+    return models.map(modelName => {
+      const info = getModelInfo(modelName);
+      return `
+        <span class="tag-model tag-model-${info.brand} ${isCompact ? 'tag-model-compact' : ''}" 
+              data-model-filter="${info.brand}" 
+              title="Click to filter by ${this.escapeHtml(info.label)}">
+          ${info.svg}
+          <span>${this.escapeHtml(info.label)}</span>
+        </span>
+      `;
+    }).join('');
   }
 
   renderCategoryPills() {
@@ -529,11 +631,12 @@ class App {
         <table class="directory-table">
           <thead>
             <tr>
-              <th style="width: 120px; min-width: 120px;">Status</th>
-              <th style="width: 220px; min-width: 190px;">Provider</th>
-              <th style="width: 130px; min-width: 110px;">Category</th>
-              <th style="width: 260px; min-width: 200px;">Bonus / Reward</th>
-              <th style="min-width: 280px;">Notes</th>
+              <th style="width: 110px; min-width: 110px;">Status</th>
+              <th style="width: 200px; min-width: 170px;">Provider</th>
+              <th style="width: 180px; min-width: 160px;">Models</th>
+              <th style="width: 120px; min-width: 100px;">Category</th>
+              <th style="width: 240px; min-width: 180px;">Bonus / Reward</th>
+              <th style="min-width: 240px;">Notes</th>
               <th style="width: 160px; min-width: 150px; text-align: right;">Links</th>
               ${this.admin.isAdminMode ? '<th style="width: 180px; min-width: 180px; text-align: right;">Admin</th>' : ''}
             </tr>
@@ -555,7 +658,7 @@ class App {
 
     return `
       <tr data-id="${this.escapeHtml(item.id)}" class="${item.recommended ? 'table-row-recommended' : ''}">
-        <td style="width: 120px;">
+        <td style="width: 110px;">
           <span class="status-pill ${statusDef.badgeCls}">
             <span class="status-dot ${statusDef.dotCls}"></span>
             ${this.escapeHtml(statusDef.label)}
@@ -567,6 +670,11 @@ class App {
             ${item.recommended ? '<span class="badge-recommended" style="font-size:0.6rem; padding:0.12rem 0.35rem;">★ Rec</span>' : ''}
             ${item.verified ? '<span class="badge-verified" style="font-size:0.6rem; padding:0.12rem 0.35rem;">✓ Ver</span>' : ''}
             ${item.badge ? `<span class="badge-reward" style="font-size:0.65rem;">⚡ ${this.escapeHtml(item.badge)}</span>` : ''}
+          </div>
+        </td>
+        <td>
+          <div class="table-models-cell">
+            ${this.renderModelTags(item.models)}
           </div>
         </td>
         <td class="table-category-cell">
@@ -637,6 +745,11 @@ class App {
           ${item.recommended ? '<span class="badge-recommended" style="font-size:0.6rem; padding:0.1rem 0.35rem;">★ Rec</span>' : ''}
           ${item.verified ? '<span class="badge-verified" style="font-size:0.6rem; padding:0.1rem 0.35rem;">✓</span>' : ''}
           ${item.badge ? `<span class="badge-reward" style="font-size:0.65rem;">⚡ ${this.escapeHtml(item.badge)}</span>` : ''}
+          ${item.models && item.models.length > 0 ? `
+            <span class="compact-models">
+              ${this.renderModelTags(item.models, true)}
+            </span>
+          ` : ''}
           <span class="table-category-cell">• ${this.escapeHtml(item.category)}</span>
           ${item.bonus ? `<span class="compact-bonus"><span class="bonus-credit-tag" style="font-size:0.58rem; padding:0.05rem 0.3rem;">🎁 Credits</span> ${this.escapeHtml(item.bonus)}</span>` : ''}
         </div>
@@ -696,6 +809,14 @@ class App {
           <div class="card-bonus-desc" title="Bonus Offer">
             <span class="bonus-credit-tag">🎁 Credits</span>
             <span class="bonus-credit-text">${this.escapeHtml(item.bonus)}</span>
+          </div>
+        ` : ''}
+
+        <!-- Supported AI Models with official logos -->
+        ${item.models && item.models.length > 0 ? `
+          <div class="card-models-row">
+            <span class="card-models-label">Models:</span>
+            ${this.renderModelTags(item.models)}
           </div>
         ` : ''}
 
@@ -784,7 +905,22 @@ class App {
     });
   });
 
-
+  // 1-Click Filter by AI Model tag
+  container.querySelectorAll('.tag-model[data-model-filter]').forEach(tag => {
+    tag.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const brand = tag.getAttribute('data-model-filter');
+      if (brand) {
+        this.modelFilter = (this.modelFilter === brand) ? 'all' : brand;
+        this.render();
+        const filterBar = document.getElementById('models-filter-bar');
+        if (filterBar) {
+          filterBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    });
+  });
 
   // Admin inline actions
   if (this.admin.isAdminMode) {

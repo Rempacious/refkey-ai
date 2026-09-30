@@ -234,6 +234,21 @@ export class AdminController {
       });
     });
 
+    // Model Quick-Add Chips in Link Editor
+    document.querySelectorAll('#model-quick-chips [data-add-model]').forEach(chipBtn => {
+      chipBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const modelToAdd = chipBtn.getAttribute('data-add-model');
+        const input = document.getElementById('link-models');
+        if (!input || !modelToAdd) return;
+        const currentModels = input.value.split(',').map(m => m.trim()).filter(Boolean);
+        if (!currentModels.some(m => m.toLowerCase() === modelToAdd.toLowerCase())) {
+          currentModels.push(modelToAdd);
+          input.value = currentModels.join(', ');
+        }
+      });
+    });
+
     // Close modal on overlay background click
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
       overlay.addEventListener('click', (e) => {
@@ -334,6 +349,11 @@ export class AdminController {
       document.getElementById('link-status').value = item.status || 'active';
       document.getElementById('link-notes').value = item.notes || '';
 
+      const modelsInput = document.getElementById('link-models');
+      if (modelsInput) {
+        modelsInput.value = Array.isArray(item.models) ? item.models.join(', ') : (item.models || '');
+      }
+
       const chkRec = document.getElementById('link-recommended');
       if (chkRec) chkRec.checked = Boolean(item.recommended);
       const chkVer = document.getElementById('link-verified');
@@ -352,6 +372,8 @@ export class AdminController {
       titleEl.textContent = 'Add New Referral Link';
       document.getElementById('link-category').value = this.app.currentCategory !== 'all' ? this.app.currentCategory : 'Top Sites';
       document.getElementById('link-status').value = 'active';
+      const modelsInput = document.getElementById('link-models');
+      if (modelsInput) modelsInput.value = '';
       const chkRec = document.getElementById('link-recommended');
       if (chkRec) chkRec.checked = false;
       const chkVer = document.getElementById('link-verified');
@@ -382,6 +404,10 @@ export class AdminController {
     const primaryUrl = document.getElementById('link-url').value.trim();
     const status = document.getElementById('link-status').value;
     const notes = document.getElementById('link-notes').value.trim();
+    const modelsRaw = document.getElementById('link-models')?.value.trim() || '';
+    const models = modelsRaw
+      ? modelsRaw.split(',').map(m => m.trim()).filter(Boolean)
+      : [];
     const recommended = Boolean(document.getElementById('link-recommended')?.checked);
     const verified = Boolean(document.getElementById('link-verified')?.checked);
 
@@ -412,6 +438,7 @@ export class AdminController {
           category,
           badge,
           bonus,
+          models,
           url: primaryUrl,
           urls,
           status,
@@ -430,6 +457,7 @@ export class AdminController {
         category,
         badge,
         bonus,
+        models,
         url: primaryUrl,
         urls,
         status,

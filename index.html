@@ -222,6 +222,9 @@
 
         <!-- Category Pills Nav -->
         <nav class="categories-nav" id="categories-nav" aria-label="Categories navigation"></nav>
+
+        <!-- AI Model Filter Bar (with official logos) -->
+        <div class="models-filter-bar" id="models-filter-bar" aria-label="AI Model filters"></div>
       </div>
     </header>
 
@@ -321,9 +324,25 @@
           </div>
 
           <div class="form-group">
+            <label class="form-label" for="link-models">Supported AI Models</label>
+            <input type="text" id="link-models" class="form-input"
+              placeholder="e.g. Claude 3.5 Sonnet, GPT-4o, DeepSeek-V3">
+            <div class="form-chips-row" id="model-quick-chips">
+              <span class="chips-label">Quick Add:</span>
+              <button type="button" class="btn-chip-tag" data-add-model="Claude 3.5">+ Claude</button>
+              <button type="button" class="btn-chip-tag" data-add-model="GPT-4o">+ GPT-4o</button>
+              <button type="button" class="btn-chip-tag" data-add-model="DeepSeek-R1">+ DeepSeek</button>
+              <button type="button" class="btn-chip-tag" data-add-model="Llama 3.3">+ Llama 3</button>
+              <button type="button" class="btn-chip-tag" data-add-model="Gemini 2.0">+ Gemini</button>
+              <button type="button" class="btn-chip-tag" data-add-model="Mistral">+ Mistral</button>
+            </div>
+            <p class="form-help">Comma-separated list of models (e.g. Claude 3.5, GPT-4o, DeepSeek-V3, Llama 3). Official logos appear automatically.</p>
+          </div>
+
+          <div class="form-group">
             <label class="form-label" for="link-notes">Notes / Instructions</label>
             <textarea id="link-notes" class="form-textarea" rows="3"
-              placeholder="e.g. Requires GitHub account verification. Supports Claude 3.5 Sonnet and GPT-4o."></textarea>
+              placeholder="e.g. Requires GitHub account verification. Fast Claude and GPT routers."></textarea>
           </div>
         </div>
 

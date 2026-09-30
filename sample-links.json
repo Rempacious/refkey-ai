@@ -5,6 +5,7 @@
     "category": "Top Sites",
     "badge": "$150 + Daily",
     "bonus": "$150 free credits + daily relogin bonus",
+    "models": ["Claude 3.5 Sonnet", "GPT-4o", "DeepSeek-V3"],
     "notes": "GitHub verification required. Top tier fast Claude and GPT routers.",
     "url": "https://agentrouter.org/register?aff=demo",
     "urls": [
@@ -22,6 +23,7 @@
     "category": "Top Sites",
     "badge": "Free Models",
     "bonus": "Free models available daily with no minimum deposit",
+    "models": ["Claude 3.5", "GPT-4o", "DeepSeek-R1", "Llama 3.3", "Gemini 2.0", "Mistral"],
     "notes": "Popular router for LLMs. Access free Llama 3, Gemini Flash, and Mistral models.",
     "url": "https://openrouter.ai/settings/",
     "urls": [
@@ -39,6 +41,7 @@
     "category": "AI Routers",
     "badge": "$50 + Check-in",
     "bonus": "$50 free signup credits + daily check-in bonus",
+    "models": ["Claude 3.5 Sonnet", "DeepSeek-V3", "GPT-4o mini"],
     "notes": "Requires Discord verification. Cheap pricing on high context models.",
     "url": "https://vyceai.com/signup?ref=demo",
     "urls": [
@@ -56,6 +59,7 @@
     "category": "AI Routers",
     "badge": "$10 Free",
     "bonus": "Temporary maintenance window",
+    "models": ["GPT-3.5", "Llama 2"],
     "notes": "Provider is upgrading API gateway. Expected back online shortly.",
     "url": "https://example.com/ref",
     "urls": [
