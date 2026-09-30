@@ -71,6 +71,9 @@ export class AdminController {
 
   exitAdminMode() {
     this.isAdminMode = false;
+    this.app.sortBy = 'default';
+    const sortSel = document.getElementById('sort-order-select');
+    if (sortSel) sortSel.value = 'default';
     this.updateLockIconVisibility();
     this.updateAdminBarVisibility();
     this.app.render();
@@ -80,6 +83,9 @@ export class AdminController {
   logout() {
     this.token = '';
     this.isAdminMode = false;
+    this.app.sortBy = 'default';
+    const sortSel = document.getElementById('sort-order-select');
+    if (sortSel) sortSel.value = 'default';
     localStorage.removeItem(CONFIG.STORAGE_KEYS.ADMIN_TOKEN);
     this.updateLockIconVisibility();
     this.updateAdminBarVisibility();
@@ -156,6 +162,10 @@ export class AdminController {
     const adminBar = document.getElementById('admin-bar');
     if (!adminBar) return;
     adminBar.style.display = this.isAdminMode ? 'flex' : 'none';
+
+    // Show/hide admin-only sort control
+    const sortWrap = document.getElementById('sort-order-wrap');
+    if (sortWrap) sortWrap.style.display = this.isAdminMode ? '' : 'none';
 
     const gistInfoEl = document.getElementById('admin-gist-display');
     if (gistInfoEl) {

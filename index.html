@@ -190,6 +190,18 @@
             </select>
           </div>
 
+          <!-- Sort Order (Admin Only) -->
+          <div class="sort-filter-wrap" id="sort-order-wrap" style="display:none;">
+            <select id="sort-order-select" class="filter-select" aria-label="Sort order">
+              <option value="default">Sort: Default</option>
+              <option value="name-asc">Sort: Name A→Z</option>
+              <option value="name-desc">Sort: Name Z→A</option>
+              <option value="newest">Sort: Newest</option>
+              <option value="oldest">Sort: Oldest</option>
+              <option value="status">Sort: Status</option>
+            </select>
+          </div>
+
           <!-- Layout View Switcher -->
           <div class="view-mode-toggle" id="view-mode-toggle">
             <button type="button" class="btn-view is-active" data-view="grid" title="Bento Grid View">

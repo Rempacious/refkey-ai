@@ -126,6 +126,15 @@ class App {
       });
     }
 
+    // Sort order select
+    const sortSelect = document.getElementById('sort-order-select');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', (e) => {
+        this.sortBy = e.target.value;
+        this.render();
+      });
+    }
+
     // Manual Refresh button
     const refreshBtn = document.getElementById('btn-refresh-data');
     if (refreshBtn) {
@@ -406,6 +415,29 @@ class App {
     });
   }
 
+  sortLinks(links) {
+    if (this.sortBy === 'default') return links;
+
+    const STATUS_ORDER = { active: 0, unconfirmed: 1, down: 2, dead: 3, fake: 4 };
+
+    return [...links].sort((a, b) => {
+      switch (this.sortBy) {
+        case 'name-asc':
+          return (a.name || '').localeCompare(b.name || '');
+        case 'name-desc':
+          return (b.name || '').localeCompare(a.name || '');
+        case 'newest':
+          return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+        case 'oldest':
+          return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
+        case 'status':
+          return (STATUS_ORDER[a.status] ?? 99) - (STATUS_ORDER[b.status] ?? 99);
+        default:
+          return 0;
+      }
+    });
+  }
+
   /* ==========================================================================
      DOM Rendering
      ========================================================================== */
@@ -530,7 +562,7 @@ class App {
       return;
     }
 
-    const filtered = this.getFilteredLinks();
+    const filtered = this.sortLinks(this.getFilteredLinks());
 
     if (filtered.length === 0) {
       container.innerHTML = `
