@@ -9,12 +9,12 @@
 export const CONFIG = {
   // Public GitHub Gist ID holding your links.json.
   // Leave empty ("") to start with sample data, or paste your Gist ID here.
-  DEFAULT_GIST_ID: "",
+  DEFAULT_GIST_ID: "fb001da04d2cdc464fee07bfecb06f8e",
 
   // Site branding
   SITE_NAME: "RefKey // AI Directory",
   SITE_SUBTITLE: "Real-time curated directory of AI API referral links, free credits, and routers.",
-  
+
   // Default category tags (custom categories can also be added dynamically)
   DEFAULT_CATEGORIES: [
     { key: "Top Sites", label: "Top Sites" },
