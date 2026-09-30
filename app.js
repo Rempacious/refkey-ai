@@ -460,17 +460,17 @@ class App {
         Models:
       </span>
       ${CONFIG.POPULAR_MODELS.map(m => {
-        const isActive = this.modelFilter === m.key;
-        const logoSvg = m.key === 'all'
-          ? `<svg class="model-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 12 9 17 20 6"></polyline></svg>`
-          : (MODEL_LOGOS[m.brand] || MODEL_LOGOS.default);
-        return `
+      const isActive = this.modelFilter === m.key;
+      const logoSvg = m.key === 'all'
+        ? `<svg class="model-logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 12 9 17 20 6"></polyline></svg>`
+        : (MODEL_LOGOS[m.brand] || MODEL_LOGOS.default);
+      return `
           <button type="button" class="btn-model-filter ${isActive ? 'is-active' : ''}" data-model="${this.escapeHtml(m.key)}" title="Filter by ${this.escapeHtml(m.label)}">
             ${logoSvg}
             <span>${this.escapeHtml(m.label)}</span>
           </button>
         `;
-      }).join('')}
+    }).join('')}
     `;
 
     container.innerHTML = html;
@@ -900,113 +900,113 @@ class App {
   }
 
   attachCardEventListeners(container) {
-  // Copy referral link button
-  container.querySelectorAll('.btn-copy-link').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const url = btn.getAttribute('data-url');
-      if (!url) return;
-      try {
-        await navigator.clipboard.writeText(url);
-        const originalText = btn.innerHTML;
-        btn.classList.add('copied');
-        btn.innerHTML = `
+    // Copy referral link button
+    container.querySelectorAll('.btn-copy-link').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const url = btn.getAttribute('data-url');
+        if (!url) return;
+        try {
+          await navigator.clipboard.writeText(url);
+          const originalText = btn.innerHTML;
+          btn.classList.add('copied');
+          btn.innerHTML = `
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
             <span>Copied!</span>
           `;
-        this.showToast('Referral link copied to clipboard!', 'success');
-        setTimeout(() => {
-          btn.classList.remove('copied');
-          btn.innerHTML = originalText;
-        }, 2000);
-      } catch (e) {
-        // Fallback
-        const input = document.createElement('input');
-        input.value = url;
-        document.body.appendChild(input);
-        input.select();
-        document.execCommand('copy');
-        input.remove();
-        this.showToast('Copied to clipboard!', 'success');
-      }
-    });
-  });
-
-  // 1-Click Filter by AI Model tag
-  container.querySelectorAll('.tag-model[data-model-filter]').forEach(tag => {
-    tag.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const brand = tag.getAttribute('data-model-filter');
-      if (brand) {
-        this.modelFilter = (this.modelFilter === brand) ? 'all' : brand;
-        this.render();
-        const filterBar = document.getElementById('models-filter-bar');
-        if (filterBar) {
-          filterBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          this.showToast('Referral link copied to clipboard!', 'success');
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = originalText;
+          }, 2000);
+        } catch (e) {
+          // Fallback
+          const input = document.createElement('input');
+          input.value = url;
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand('copy');
+          input.remove();
+          this.showToast('Copied to clipboard!', 'success');
         }
-      }
-    });
-  });
-
-  // Admin inline actions
-  if (this.admin.isAdminMode) {
-    // 1-Click Status dropdown
-    container.querySelectorAll('.card-admin-status-select').forEach(sel => {
-      sel.addEventListener('change', (e) => {
-        const id = sel.getAttribute('data-id');
-        this.admin.updateLinkStatus(id, e.target.value);
       });
     });
 
-    // Edit button
-    container.querySelectorAll('.btn-admin-edit').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-id');
-        this.admin.openLinkModal(id);
+    // 1-Click Filter by AI Model tag
+    container.querySelectorAll('.tag-model[data-model-filter]').forEach(tag => {
+      tag.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const brand = tag.getAttribute('data-model-filter');
+        if (brand) {
+          this.modelFilter = (this.modelFilter === brand) ? 'all' : brand;
+          this.render();
+          const filterBar = document.getElementById('models-filter-bar');
+          if (filterBar) {
+            filterBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }
       });
     });
 
-    // Toggle Recommended button
-    container.querySelectorAll('.btn-admin-toggle-rec').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-id');
-        this.admin.toggleRecommended(id);
+    // Admin inline actions
+    if (this.admin.isAdminMode) {
+      // 1-Click Status dropdown
+      container.querySelectorAll('.card-admin-status-select').forEach(sel => {
+        sel.addEventListener('change', (e) => {
+          const id = sel.getAttribute('data-id');
+          this.admin.updateLinkStatus(id, e.target.value);
+        });
       });
-    });
 
-    // Toggle Verified button
-    container.querySelectorAll('.btn-admin-toggle-ver').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-id');
-        this.admin.toggleVerified(id);
+      // Edit button
+      container.querySelectorAll('.btn-admin-edit').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          this.admin.openLinkModal(id);
+        });
       });
-    });
 
-    // Delete button
-    container.querySelectorAll('.btn-admin-delete').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-id');
-        this.admin.confirmDelete(id);
+      // Toggle Recommended button
+      container.querySelectorAll('.btn-admin-toggle-rec').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          this.admin.toggleRecommended(id);
+        });
       });
-    });
 
-    // Move Up
-    container.querySelectorAll('.btn-admin-move-up').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-id');
-        this.admin.moveLink(id, 'up');
+      // Toggle Verified button
+      container.querySelectorAll('.btn-admin-toggle-ver').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          this.admin.toggleVerified(id);
+        });
       });
-    });
 
-    // Move Down
-    container.querySelectorAll('.btn-admin-move-down').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-id');
-        this.admin.moveLink(id, 'down');
+      // Delete button
+      container.querySelectorAll('.btn-admin-delete').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          this.admin.confirmDelete(id);
+        });
       });
-    });
+
+      // Move Up
+      container.querySelectorAll('.btn-admin-move-up').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          this.admin.moveLink(id, 'up');
+        });
+      });
+
+      // Move Down
+      container.querySelectorAll('.btn-admin-move-down').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          this.admin.moveLink(id, 'down');
+        });
+      });
+    }
   }
-}
 
   /* ==========================================================================
      Toast Notifications

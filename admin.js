@@ -544,14 +544,27 @@ export class AdminController {
   }
 
   async moveLink(linkId, direction) {
-    const index = this.app.links.findIndex(l => l.id === linkId);
-    if (index === -1) return;
+    const link = this.app.links.find(l => l.id === linkId);
+    if (!link) return;
 
-    const newIndex = direction === 'up' ? index - 1 : index + 1;
-    if (newIndex < 0 || newIndex >= this.app.links.length) return;
+    // Get all items in the same category, in their current array order
+    const category = link.category;
+    const categoryItems = this.app.links.filter(l => l.category === category);
+    const posInCategory = categoryItems.findIndex(l => l.id === linkId);
 
-    const [moved] = this.app.links.splice(index, 1);
-    this.app.links.splice(newIndex, 0, moved);
+    // Can't move beyond the boundaries of its own category
+    if (direction === 'up' && posInCategory <= 0) return;
+    if (direction === 'down' && posInCategory >= categoryItems.length - 1) return;
+
+    // Find the sibling to swap with (the adjacent item in the same category)
+    const swapTarget = direction === 'up'
+      ? categoryItems[posInCategory - 1]
+      : categoryItems[posInCategory + 1];
+
+    // Swap their positions in the master array
+    const indexA = this.app.links.findIndex(l => l.id === linkId);
+    const indexB = this.app.links.findIndex(l => l.id === swapTarget.id);
+    [this.app.links[indexA], this.app.links[indexB]] = [this.app.links[indexB], this.app.links[indexA]];
 
     await this.persistChanges(`Reordered links`);
   }
