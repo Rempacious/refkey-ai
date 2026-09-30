@@ -1082,29 +1082,12 @@ body {
 .card-notes {
   color: var(--text-muted);
   font-size: 0.825rem;
-  line-height: 1.45;
+  line-height: 1.5;
   flex: 1;
-}
-
-.card-notes.is-truncated {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.btn-toggle-notes {
-  background: none;
-  border: none;
-  color: var(--primary);
-  font-family: var(--font-mono);
-  font-size: 0.725rem;
-  cursor: pointer;
-  padding: 0;
-  margin-left: 0.3rem;
-}
-.btn-toggle-notes:hover {
-  text-decoration: underline;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 /* Card Actions */

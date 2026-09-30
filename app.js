@@ -575,7 +575,7 @@ class App {
         <td class="table-bonus-cell">
           ${item.bonus ? `<span class="bonus-credit-tag" style="margin-right:0.35rem;">🎁 Credits</span><strong>${this.escapeHtml(item.bonus)}</strong>` : '—'}
         </td>
-        <td style="color:var(--text-muted); font-size:0.775rem; max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${this.escapeHtml(item.notes || '')}">
+        <td style="color:var(--text-muted); font-size:0.775rem; max-width:280px; white-space:normal; word-break:break-word; line-height:1.4;" title="${this.escapeHtml(item.notes || '')}">
           ${this.escapeHtml(item.notes || '—')}
         </td>
         <td style="text-align: right;">
@@ -674,7 +674,6 @@ class App {
     };
 
     const hasMultipleUrls = item.urls && item.urls.length > 1;
-    const isLongNote = item.notes && item.notes.length > 85;
 
     return `
       <article class="card-provider ${item.recommended ? 'is-recommended' : ''}" data-id="${this.escapeHtml(item.id)}" data-status="${this.escapeHtml(item.status)}">
@@ -702,9 +701,8 @@ class App {
 
         <!-- Notes / Instructions -->
         ${item.notes ? `
-          <div class="card-notes ${isLongNote ? 'is-truncated' : ''}">
+          <div class="card-notes">
             ${this.escapeHtml(item.notes)}
-            ${isLongNote ? `<button type="button" class="btn-toggle-notes">See more</button>` : ''}
           </div>
         ` : ''}
 
@@ -786,14 +784,7 @@ class App {
     });
   });
 
-  // Toggle long notes
-  container.querySelectorAll('.btn-toggle-notes').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const noteEl = btn.parentElement;
-      const isTruncated = noteEl.classList.toggle('is-truncated');
-      btn.textContent = isTruncated ? 'See more' : 'Show less';
-    });
-  });
+
 
   // Admin inline actions
   if (this.admin.isAdminMode) {
