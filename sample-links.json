@@ -1,0 +1,70 @@
+[
+  {
+    "id": "ref_agentrouter",
+    "name": "AgentRouter",
+    "category": "Top Sites",
+    "badge": "$150 + Daily",
+    "bonus": "$150 free credits + daily relogin bonus",
+    "notes": "GitHub verification required. Top tier fast Claude and GPT routers.",
+    "url": "https://agentrouter.org/register?aff=demo",
+    "urls": [
+      { "label": "Direct Referral", "url": "https://agentrouter.org/register?aff=demo" }
+    ],
+    "status": "active",
+    "recommended": true,
+    "verified": true,
+    "createdAt": "2026-09-30T00:00:00.000Z",
+    "updatedAt": "2026-09-30T00:00:00.000Z"
+  },
+  {
+    "id": "ref_openrouter",
+    "name": "OpenRouter",
+    "category": "Top Sites",
+    "badge": "Free Models",
+    "bonus": "Free models available daily with no minimum deposit",
+    "notes": "Popular router for LLMs. Access free Llama 3, Gemini Flash, and Mistral models.",
+    "url": "https://openrouter.ai/settings/",
+    "urls": [
+      { "label": "Settings", "url": "https://openrouter.ai/settings/" }
+    ],
+    "status": "active",
+    "recommended": true,
+    "verified": true,
+    "createdAt": "2026-09-30T00:00:00.000Z",
+    "updatedAt": "2026-09-30T00:00:00.000Z"
+  },
+  {
+    "id": "ref_vyceai",
+    "name": "VyceAi",
+    "category": "AI Routers",
+    "badge": "$50 + Check-in",
+    "bonus": "$50 free signup credits + daily check-in bonus",
+    "notes": "Requires Discord verification. Cheap pricing on high context models.",
+    "url": "https://vyceai.com/signup?ref=demo",
+    "urls": [
+      { "label": "Register", "url": "https://vyceai.com/signup?ref=demo" }
+    ],
+    "status": "active",
+    "recommended": false,
+    "verified": true,
+    "createdAt": "2026-09-30T00:00:00.000Z",
+    "updatedAt": "2026-09-30T00:00:00.000Z"
+  },
+  {
+    "id": "ref_example_down",
+    "name": "LegacyRouter",
+    "category": "AI Routers",
+    "badge": "$10 Free",
+    "bonus": "Temporary maintenance window",
+    "notes": "Provider is upgrading API gateway. Expected back online shortly.",
+    "url": "https://example.com/ref",
+    "urls": [
+      { "label": "Link", "url": "https://example.com/ref" }
+    ],
+    "status": "down",
+    "recommended": false,
+    "verified": false,
+    "createdAt": "2026-09-30T00:00:00.000Z",
+    "updatedAt": "2026-09-30T00:00:00.000Z"
+  }
+]
