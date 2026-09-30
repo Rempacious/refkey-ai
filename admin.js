@@ -20,32 +20,135 @@ export class AdminController {
 
   init() {
     this.bindEvents();
+    this.updateLockIconVisibility();
     this.updateAdminBarVisibility();
+
+    // Check ?admin parameter in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('admin')) {
+      this.requestAdminAccess();
+    }
   }
 
   get hasAuth() {
     return Boolean(this.token && this.token.trim().length > 0);
   }
 
+  updateLockIconVisibility() {
+    const lockBtn = document.getElementById('btn-admin-toggle');
+    if (!lockBtn) return;
+    if (this.hasAuth) {
+      lockBtn.style.display = 'inline-flex';
+      lockBtn.classList.toggle('is-active', this.isAdminMode);
+      lockBtn.title = this.isAdminMode ? 'Admin Mode (Active - Click to Exit)' : 'Admin Mode (Click to Toggle)';
+    } else {
+      lockBtn.style.display = 'none';
+      lockBtn.classList.remove('is-active');
+    }
+  }
+
+  requestAdminAccess() {
+    if (this.isAdminMode) {
+      this.exitAdminMode();
+    } else if (this.hasAuth) {
+      this.enableAdminMode();
+    } else {
+      this.openLoginModal();
+    }
+  }
+
   toggleAdminMode() {
-    this.isAdminMode = !this.isAdminMode;
+    this.requestAdminAccess();
+  }
+
+  enableAdminMode() {
+    this.isAdminMode = true;
+    this.updateLockIconVisibility();
     this.updateAdminBarVisibility();
     this.app.render();
+    this.app.showToast('Admin mode activated', 'info');
+  }
 
-    const lockBtn = document.getElementById('btn-admin-toggle');
-    if (lockBtn) {
-      lockBtn.classList.toggle('is-active', this.isAdminMode);
-      lockBtn.title = this.isAdminMode ? 'Admin Mode (Active)' : 'Admin Login';
+  exitAdminMode() {
+    this.isAdminMode = false;
+    this.updateLockIconVisibility();
+    this.updateAdminBarVisibility();
+    this.app.render();
+    this.app.showToast('Exited Admin mode', 'info');
+  }
+
+  logout() {
+    this.token = '';
+    this.isAdminMode = false;
+    localStorage.removeItem(CONFIG.STORAGE_KEYS.ADMIN_TOKEN);
+    this.updateLockIconVisibility();
+    this.updateAdminBarVisibility();
+    this.app.render();
+    this.app.showToast('Logged out of Admin mode', 'info');
+  }
+
+  openLoginModal() {
+    const modal = document.getElementById('modal-admin-login');
+    if (!modal) return;
+    const tokenInput = document.getElementById('login-token');
+    const statusMsg = document.getElementById('login-status-msg');
+    if (tokenInput) tokenInput.value = '';
+    if (statusMsg) statusMsg.innerHTML = '';
+    modal.classList.add('is-open');
+    setTimeout(() => { if (tokenInput) tokenInput.focus(); }, 100);
+  }
+
+  async handleLogin(e) {
+    e.preventDefault();
+    const tokenInput = document.getElementById('login-token');
+    const statusMsg = document.getElementById('login-status-msg');
+    const submitBtn = document.getElementById('btn-submit-login');
+    if (!tokenInput) return;
+
+    const token = tokenInput.value.trim();
+    if (!token) {
+      if (statusMsg) statusMsg.innerHTML = '<span style="color:#f87171">Please enter your GitHub token.</span>';
+      return;
     }
 
-    if (this.isAdminMode) {
-      this.app.showToast('Admin mode activated', 'info');
-      // If user hasn't set up token or gist yet, guide them to settings
-      if (!this.hasAuth && !this.gistId) {
-        setTimeout(() => this.openSettingsModal(), 400);
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verifying…';
+    }
+    if (statusMsg) {
+      statusMsg.innerHTML = '<span style="color:var(--text-muted)">Verifying token with GitHub API…</span>';
+    }
+
+    try {
+      const auth = await GistService.verifyToken(token);
+      if (!auth.valid) {
+        throw new Error(auth.error || 'Token verification failed');
       }
-    } else {
-      this.app.showToast('Exited Admin mode', 'info');
+
+      this.token = token;
+      localStorage.setItem(CONFIG.STORAGE_KEYS.ADMIN_TOKEN, token);
+
+      if (statusMsg) {
+        statusMsg.innerHTML = `<span style="color:var(--primary)">✓ Authenticated as @${auth.user.login}!</span>`;
+      }
+
+      setTimeout(() => {
+        const modal = document.getElementById('modal-admin-login');
+        if (modal) modal.classList.remove('is-open');
+        this.enableAdminMode();
+        this.app.showToast(`Welcome back, @${auth.user.login}! Admin Mode active.`, 'success');
+      }, 400);
+
+    } catch (err) {
+      if (statusMsg) {
+        statusMsg.innerHTML = `<span style="color:#f87171">✕ Access Denied: ${err.message}</span>`;
+      }
+      this.app.showToast('Invalid token. Access denied.', 'error');
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Authenticate';
+      }
     }
   }
 
@@ -70,7 +173,7 @@ export class AdminController {
     // Top admin button
     const toggleBtn = document.getElementById('btn-admin-toggle');
     if (toggleBtn) {
-      toggleBtn.addEventListener('click', () => this.toggleAdminMode());
+      toggleBtn.addEventListener('click', () => this.requestAdminAccess());
     }
 
     // Admin bar actions
@@ -98,7 +201,29 @@ export class AdminController {
 
     const btnExit = document.getElementById('admin-btn-exit');
     if (btnExit) {
-      btnExit.addEventListener('click', () => this.toggleAdminMode());
+      btnExit.addEventListener('click', () => this.exitAdminMode());
+    }
+
+    const btnLogout = document.getElementById('admin-btn-logout');
+    if (btnLogout) {
+      btnLogout.addEventListener('click', () => this.logout());
+    }
+
+    // Admin Login Form
+    const loginForm = document.getElementById('form-admin-login');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+    }
+
+    // Toggle Login Token Password Visibility
+    const btnToggleLoginVis = document.getElementById('btn-toggle-login-token-vis');
+    const inputLoginToken = document.getElementById('login-token');
+    if (btnToggleLoginVis && inputLoginToken) {
+      btnToggleLoginVis.addEventListener('click', () => {
+        const isPass = inputLoginToken.type === 'password';
+        inputLoginToken.type = isPass ? 'text' : 'password';
+        btnToggleLoginVis.textContent = isPass ? 'Hide' : 'Show';
+      });
     }
 
     // Modal close buttons
@@ -175,7 +300,7 @@ export class AdminController {
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') || (e.altKey && e.key.toLowerCase() === 'a')) {
         e.preventDefault();
-        this.toggleAdminMode();
+        this.requestAdminAccess();
       }
       if (e.key === 'Escape') {
         document.querySelectorAll('.modal-overlay.is-open').forEach(m => m.classList.remove('is-open'));
