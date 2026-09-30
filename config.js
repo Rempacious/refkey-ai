@@ -28,10 +28,10 @@ export const CONFIG = {
   // Popular AI model tags and filters
   POPULAR_MODELS: [
     { key: "all", label: "All Models" },
-    { key: "claude", label: "Claude 3.5", brand: "claude" },
-    { key: "gpt", label: "GPT-4o", brand: "gpt" },
+    { key: "claude", label: "Claude", brand: "claude" },
+    { key: "gpt", label: "GPT", brand: "gpt" },
     { key: "deepseek", label: "DeepSeek", brand: "deepseek" },
-    { key: "glm", label: "GLM-4", brand: "glm" }
+    { key: "glm", label: "GLM", brand: "glm" }
   ],
 
   // Status definitions with display labels and visual indicator classes
